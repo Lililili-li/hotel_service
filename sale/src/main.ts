@@ -4,7 +4,6 @@ import ArcoVue from '@arco-design/web-vue';
 import App from './App.vue'
 import router from './router'
 import '@/style/base.css'
-import '@/style/global.less'
 import '@arco-design/web-vue/dist/arco.css';
 
 const app = createApp(App)
