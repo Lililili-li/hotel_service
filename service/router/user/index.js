@@ -13,7 +13,7 @@ useRouter.post('/login', async (req, res) => {
   // password = md5(password);
   dbClient.select('user',{'account': `${account}`,'password': `${password}`},function (err,result) {
     if (err) {
-      console.log(err);
+      console.log(err)
       return
     }
     userInfo = result
