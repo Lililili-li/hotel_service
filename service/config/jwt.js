@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken'); // 引入验证jsonwebtoken模块
-const expressJWT = require('express-jwt'); // 引入express-jwt模块
+const expressJWT  = require('express-jwt'); // 引入express-jwt模块
 
 const jwtConfig = {
   CODE_ERROR: -1, // 请求响应失败code码
   CODE_SUCCESS: 0, // 请求响应成功code码
   CODE_TOKEN_EXPIRED: 401, // 授权失败
   PRIVATE_KEY: 'password', // 自定义jwt加密的私钥
-  JWT_EXPIRED: 60 * 60 * 24 * 30, // 过期时间24小时
+  JWT_EXPIRED: 60, // 过期时间24小时
 }
 const jwtAuth = expressJWT({
   // 设置密钥
@@ -30,7 +30,7 @@ const jwtAuth = expressJWT({
 // jwt-token解析
 function decode(req) {
   const token = req.get('Authorization')
-  return jwt.verify(token, PRIVATE_KEY);
+  return jwt.verify(token, jwtConfig.PRIVATE_KEY);
 }
 
 module.exports = {
