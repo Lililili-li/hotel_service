@@ -1,6 +1,6 @@
 const express = require('express')
-const indexRouter = require('./router')
+const userRouter = require('./router/user')
 const appConfig = (app) => {
-    app.use(indexRouter)
+    app.use(userRouter)
 }
 module.exports = appConfig

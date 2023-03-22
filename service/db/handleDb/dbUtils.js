@@ -58,17 +58,17 @@ var dbClient = function(pool){
 	 * 请求执行。
 	 */
 	function query(sql, args, cb){
-        var arr = Array.prototype.slice.apply(arguments);
-        var cb = arr.pop();
-        pool.getConnection(function(err, connection) {
-            if(err) return cb(err);
-            arr.push(function(err, results){
-                connection.release();
-                err ? cb(err) : cb(null, results);
-            });
-            connection.query.apply(connection, arr);
-        });
-    };
+			var arr = Array.prototype.slice.apply(arguments);
+			var cb = arr.pop();
+			pool.getConnection(function(err, connection) {
+					if(err) return cb(err);
+					arr.push(function(err, results){
+							connection.release();
+							err ? cb(err) : cb(null, results);
+					});
+					connection.query.apply(connection, arr);
+			});
+	};
 
 	/*
 	 * 获取单条数据操作。
