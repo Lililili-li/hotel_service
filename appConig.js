@@ -1,6 +1,5 @@
-const express = require('express')
-const userRouter = require('./router/user')
+const userRouter = require('./router/user/user')
 const appConfig = (app) => {
-    app.use(userRouter)
+    app.use('/api', userRouter)
 }
 module.exports = appConfig
