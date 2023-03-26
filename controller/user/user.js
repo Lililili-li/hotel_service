@@ -7,7 +7,7 @@ let login = (req,res) => {
   let { username, password } = req.body;
   // 注册时使用
   // password = md5(password);
-  console.log(req.body);
+  console.log(req);
   dbClient.select('b_user', { 'username': `${username}`, 'password': `${password}` }, function (err, result) {
     if (err) {
       console.log(err)
