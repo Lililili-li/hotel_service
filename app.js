@@ -1,12 +1,9 @@
 const express = require('express')
 const appConfig = require('./appConig')
-const router = express.Router()
 const app = express()
-const { decode, jwtAuth } = require('./config/jwt');
+const { jwtAuth } = require('./config/jwt');
 const port = 4399
 appConfig(app)
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 app.use(jwtAuth)
 app.use(function (err, req, res, next) {
     if (err.name === "UnauthorizedError") {

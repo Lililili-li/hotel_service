@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../../config/jwt');
 let login = (req,res) => {
   let userInfo = {}
-  let { username, password } = req.query;
+  let { username, password } = req.body;
   // 注册时使用
   // password = md5(password);
+  console.log(req.body);
   dbClient.select('b_user', { 'username': `${username}`, 'password': `${password}` }, function (err, result) {
     if (err) {
       console.log(err)
