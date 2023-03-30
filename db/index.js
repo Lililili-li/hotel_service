@@ -1,5 +1,4 @@
-const dbUtils = require('./handleDb/dbUtils.js')
-
+const mysql = require('mysql');
 // 数据库连接设置
 /**
  * 本地
@@ -15,12 +14,40 @@ const dbUtils = require('./handleDb/dbUtils.js')
  * 线上
  */
 let config = {
-    host: '101.43.225.80',//数据库地址
-    port:'3306',
-    user: 'backstage',//用户名，没有可不填
-    password: 'DCA5eXsANJCpkWfF',//密码，没有可不填
-    database: 'backstage'//数据库名称 
+  connectionLimit: 200,
+  acquireTimeout: 30000,
+  host: '101.43.225.80',//数据库地址
+  port: '3306',
+  user: 'backstage',//用户名，没有可不填
+  password: 'DCA5eXsANJCpkWfF',//密码，没有可不填
+  database: 'backstage'//数据库名称 
 }
-var pool = dbUtils.create(config);
-var dbClient = new dbUtils.dbClient(pool);
-module.exports = dbClient;
+/*
+ * 创建连接池。
+ */
+const pool = mysql.createPool(config)
+class sqlConnect {
+  constructor() {
+    this.pool = pool
+  }
+  query(sql, sqlArr = []) {
+    return new Promise((resolve, reject) => {
+      this.pool.getConnection((err, conn) => {
+        if (err) {
+          console.log(err)
+        } else {
+          conn.query(sql, sqlArr, function (error, result) {
+            if (error) {
+              reject(error)
+            } else {
+              resolve(result)
+            }
+          })
+          conn.release()
+        }
+      })
+    })
+  }
+}
+const sql = new sqlConnect()
+module.exports = sql

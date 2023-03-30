@@ -1,13 +1,22 @@
-const dbClient = require('../../db/index')
-const md5 = require('../../utils/md5')
+const dbClient = require('../../db')
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../../config/jwt');
-let login = (req,res) => {
+const getUserInfo = async (req,res) => {
+  let sql = 'select * from b_user'
+  const result = await dbClient.query(sql)
+  if (result.length) {
+    res.send({
+      code: 200,
+      message: '获取成功',
+      data: result
+    })
+  }
+}
+const login = (req,res) => {
   let userInfo = {}
   let { username, password } = req.body;
   // 注册时使用
   // password = md5(password);
-  console.log(req);
   dbClient.select('b_user', { 'username': `${username}`, 'password': `${password}` }, function (err, result) {
     if (err) {
       console.log(err)
@@ -24,5 +33,6 @@ let login = (req,res) => {
   })
 }
 module.exports = {
-  login
+  login,
+  getUserInfo
 }
